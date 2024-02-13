@@ -1,0 +1,47 @@
+*Spring 웹계층
+1. Web Layer
+흔히 사용하는 컨트롤러, JSP/Freemarker 등의 뷰 템플릿 영역
+이외에도 필터(@Filter), 인터셉터, 컨트롤러 어드바이스 등 외부 요청과 응답에 대한 전반적인 영역
+
+2. Service Layer
+@Service 사용되는 서비스 영역
+컨트롤러와 Dao 중간 영역 사용
+@Transactional 사용되어야 함
+
+3. Repository Layer
+Database와 같이 데이터 저장소에 접근하는 영역
+
+4. Dtos
+Dto(Data Transfer Object)는 계층 간에 데이터 교환을 위한 객체를 이야기, Dtos는 이들의 영역
+예를 들어서, 뷰 템플릿 엔진에서 사용될 객체나 레포지토리 레이어에서 결과로 넘겨준 객체 등이 이들을 이야기 함
+
+5. Domain Model
+도메인이라 불리는 개발 대상을 모든 사람이 동일한 관점에서 이해할 수 있고 공유할 수 있도록 단순화 시킨 도메인 모델
+@Entity가 사용된 영역 역시 도메인 모델
+VO같은 값 객체도 이 영역에 해당
+
+**@Autowired
+빈 주입 방식은 아래와 같다.
+@Autowired, setter, 생성자
+이 중 가장 권장하는 방식이 생성자로 주입받는 방식(@Autowired 는 권장 안함)
+즉, 생성자로 빈 객체를 받고록 하면 @Autowired와 동일한 효과를 볼 수 있음
+@RequiredArgsConstructor에서 생성자 해결
+final이 선언된 모든 인자값으로 하는 생성자를 롬복이 대신 생성해줌
+>>쓰는 이유는 해당 클래스의 의존성 관계 변경시 생성자 코드를 계속해서 수정해야 하는데 이를 해결해 줌
+
+***Dto
+Entity 클래스와 유사한 형태임에도 Dto 클래스를 추가로 생성하는 이유
+절대 Entity 클래스를 Request/Response 클래스로 사용해서는 안된다.
+엔터티 클래스는 데이터베이스와 맞닿은 핵심 클래스이고, 엔터티 클래스를 기준으로 테이블 생성 및 스키마 변경이 된다.
+화면 변경은 사소한 기능 변경인데, 이를 위해 테이블과 연결된 엔터티 클래스를 변경 하는 것은 너무 큰 변경이다.
+View Layer와 DB Layer의 역할 분리를 철저하게 하는 것이 좋다.
+>> View를 위한 클래스 Dto
+
+****Api Controller 테스트
+api 컨트롤러 테스트 시 이전 hello 컨트롤러와 달리 @WebMvcTest를 사용하지 않은 이유는
+위 어노테이션의 경우 JPA 기능이 작동하지 않음
+그럴때는 @SpringBootTest 와 TestRestTemplate을 사용하면 됨
+
+*****JPA Auditing
+등록일, 수정일 추상 객체 생성해서 각 Entity에 상속하여 사용 하면 됨
+
