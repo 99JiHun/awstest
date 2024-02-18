@@ -1,0 +1,15 @@
+*레이아웃 방식
+공통 영역을 별도의 파일로 분리하여 필요한 곳에다 가져다 쓰는 방식
+
+**footer, header
+css, js 위치 다른 이유는 페이지 로딩속도를 높이기 위해
+css는 header에, js는 footer에 두었음
+HTML은 위에서부터 코드가 실행되기 때문에, head가 다 실행되고서야 body가 실행됨
+
+***http Method
+REST에서 CRUD는 다음과 같이 HTTP Method에 매핑됨
+생성 POST
+읽기 GET
+수정 PUT
+삭제 DELETE
+
